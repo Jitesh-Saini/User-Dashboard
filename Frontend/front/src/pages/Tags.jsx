@@ -1164,10 +1164,10 @@ const Tags = () => {
     }
   };
 
-  const handleUpdateTag = async () => {
+  const handleUpdateTag = async (id) => {
     if (!selectedTagId || !editTagName.trim()) return alert("Tag name required");
     try {
-      await axios.put(`http://localhost:5002/tags/${selectedTagId}`, {
+      await axios.put(`http://localhost:5002/tags/${id}`, {
         name: editTagName.trim(),
       });
       setOpenEdit(false);

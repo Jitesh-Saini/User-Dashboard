@@ -1,16 +1,3 @@
-// import React from 'react';
-
-// const Blogs = () => {
-//   return (
-//     <div style={{ padding: '2rem' }}>
-//       <h2>Blogs Management</h2>
-//       <p>CRUD functionality for blogs will go here.</p>
-//     </div>
-//   );
-// };
-
-// export default Blogs;
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {

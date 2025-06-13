@@ -157,7 +157,7 @@ function Blog() {
               <TableCell>{blog.author || "Unknown"}</TableCell>
               <TableCell>{blog.category || "Uncategorized"}</TableCell>
               <TableCell>
-                {blog.tag ? blog.tag : "No tag"}
+                {blog.tags ? blog.tags : "No tag"}
               </TableCell>
               <TableCell>{new Date(blog.createdAt).toLocaleString()}</TableCell>
               <TableCell>{new Date(blog.updatedAt).toLocaleString()}</TableCell>

@@ -660,14 +660,19 @@ fastify.post("/blogs", async (req, reply) => {
   const blog = {};
   let imagePath = "";
 
-  for await (const part of parts) {
-    if (part.file) {
-      const filename = Date.now() + "-" + part.filename;
-      const filePath = path.join(uploadDir, filename);
-      await part.file.pipe(fs.createWriteStream(filePath));
-      imagePath = `uploads/${filename}`;
+for await (const part of parts) {
+  if (part.file) {
+    const filename = Date.now() + "-" + part.filename;
+    const filePath = path.join(uploadDir, filename);
+    await part.file.pipe(fs.createWriteStream(filePath));
+    imagePath = `uploads/${filename}`;
+  } else {
+    // Check for multiple tags
+    if (part.fieldname === "tags[]") {
+      blog.tags = blog.tags || [];
+      blog.tags.push(part.value);
     } else {
-      const keys = part.fieldname.split('.');
+      const keys = part.fieldname.split(".");
       let obj = blog;
       while (keys.length > 1) {
         const key = keys.shift();
@@ -677,6 +682,8 @@ fastify.post("/blogs", async (req, reply) => {
       obj[keys[0]] = part.value;
     }
   }
+}
+
 
   // 🕒 Add timestamps
   blog.image = imagePath;

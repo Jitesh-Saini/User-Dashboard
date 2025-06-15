@@ -844,10 +844,6 @@
 
 // export default Tags;
 
-
-
-
-
 // import React, { useEffect, useState } from "react";
 // import axios from "axios";
 // import {
@@ -1082,11 +1078,6 @@
 
 // export default Tags;
 
-
-
-
-
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -1142,6 +1133,13 @@ const Tags = () => {
     if (!newTag.trim()) return alert("Tag name is required");
     if (!newTag.startsWith("#")) return alert("Tag must start with #");
 
+    const tagExists = tags.some(
+      (tag) => tag.name.toLowerCase() === newTag.trim().toLowerCase()
+    );
+    if (tagExists) {
+      return alert("Tag already exists");
+    }
+
     try {
       const res = await axios.post("http://localhost:5002/tags", {
         name: newTag.trim(),
@@ -1165,7 +1163,8 @@ const Tags = () => {
   };
 
   const handleUpdateTag = async (id) => {
-    if (!selectedTagId || !editTagName.trim()) return alert("Tag name required");
+    if (!selectedTagId || !editTagName.trim())
+      return alert("Tag name required");
     try {
       await axios.put(`http://localhost:5002/tags/${id}`, {
         name: editTagName.trim(),
@@ -1178,7 +1177,10 @@ const Tags = () => {
     }
   };
 
-  const paginatedTags = tags.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  const paginatedTags = tags.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
 
   return (
     <div style={{ maxWidth: 1200, margin: "20px auto" }}>
@@ -1199,7 +1201,11 @@ const Tags = () => {
         {selectedTagId && (
           <>
             <Tooltip title="View">
-              <IconButton onClick={() => setViewTag(tags.find((t) => t._id === selectedTagId))}>
+              <IconButton
+                onClick={() =>
+                  setViewTag(tags.find((t) => t._id === selectedTagId))
+                }
+              >
                 <VisibilityIcon />
               </IconButton>
             </Tooltip>
@@ -1241,7 +1247,9 @@ const Tags = () => {
                 hover
                 selected={selectedTagId === tag._id}
                 onClick={() =>
-                  setSelectedTagId((prev) => (prev === tag._id ? null : tag._id))
+                  setSelectedTagId((prev) =>
+                    prev === tag._id ? null : tag._id
+                  )
                 }
               >
                 <TableCell padding="checkbox">
@@ -1249,14 +1257,20 @@ const Tags = () => {
                     checked={selectedTagId === tag._id}
                     onClick={(e) => e.stopPropagation()}
                     onChange={() =>
-                      setSelectedTagId((prev) => (prev === tag._id ? null : tag._id))
+                      setSelectedTagId((prev) =>
+                        prev === tag._id ? null : tag._id
+                      )
                     }
                   />
                 </TableCell>
                 <TableCell>{index + 1 + page * rowsPerPage}</TableCell>
                 <TableCell>{tag.name}</TableCell>
-                <TableCell>{new Date(tag.createdAt).toLocaleString()}</TableCell>
-                <TableCell>{new Date(tag.updatedAt).toLocaleString()}</TableCell>
+                <TableCell>
+                  {new Date(tag.createdAt).toLocaleString()}
+                </TableCell>
+                <TableCell>
+                  {new Date(tag.updatedAt).toLocaleString()}
+                </TableCell>
               </TableRow>
             ))}
             {paginatedTags.length === 0 && (
@@ -1289,9 +1303,17 @@ const Tags = () => {
       <Dialog open={!!viewTag} onClose={() => setViewTag(null)}>
         <DialogTitle>Tag Details</DialogTitle>
         <DialogContent>
-          <p><strong>Tag Name:</strong> {viewTag?.name}</p>
-          <p><strong>Created At:</strong> {new Date(viewTag?.createdAt).toLocaleString()}</p>
-          <p><strong>Updated At:</strong> {new Date(viewTag?.updatedAt).toLocaleString()}</p>
+          <p>
+            <strong>Tag Name:</strong> {viewTag?.name}
+          </p>
+          <p>
+            <strong>Created At:</strong>{" "}
+            {new Date(viewTag?.createdAt).toLocaleString()}
+          </p>
+          <p>
+            <strong>Updated At:</strong>{" "}
+            {new Date(viewTag?.updatedAt).toLocaleString()}
+          </p>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setViewTag(null)}>Close</Button>

@@ -348,6 +348,15 @@ const Categories = () => {
   const handleCreateCategory = async () => {
     if (!newCategory.trim()) return alert("⚠️ Category name is required");
     setLoading(true);
+
+    const categoryExists = categories.some(
+      (cat) => cat.name.toLowerCase() === newCategory.trim().toLowerCase()
+    );
+    if (categoryExists) {
+      setLoading(false);
+      return alert("⚠️ Category already exists");
+    }
+
     try {
       const res = await axios.post("http://localhost:5002/categories", {
         name: newCategory.trim(),

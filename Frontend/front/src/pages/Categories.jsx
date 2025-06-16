@@ -290,7 +290,6 @@
 
 // export default Categories;
 
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -387,9 +386,12 @@ const Categories = () => {
       return alert("⚠️ Category name is required");
     }
     try {
-      await axios.put(`http://localhost:5002/categories/${selectedCategoryId}`, {
-        name: editCategoryName.trim(),
-      });
+      await axios.put(
+        `http://localhost:5002/categories/${selectedCategoryId}`,
+        {
+          name: editCategoryName.trim(),
+        }
+      );
       setOpenEdit(false);
       setEditCategoryName("");
       setSelectedCategoryId(null);
@@ -406,6 +408,10 @@ const Categories = () => {
 
   return (
     <div style={{ maxWidth: 1200, margin: "20px auto" }}>
+      
+      <Button variant="contained" color="primary" component="a" href="/">
+        Go Back
+      </Button>
       <h2>📁 Categories Management</h2>
 
       <Box display="flex" gap={2} mb={2}>
@@ -416,7 +422,11 @@ const Categories = () => {
           onChange={(e) => setNewCategory(e.target.value)}
           disabled={loading}
         />
-        <Button variant="contained" onClick={handleCreateCategory} disabled={loading}>
+        <Button
+          variant="contained"
+          onClick={handleCreateCategory}
+          disabled={loading}
+        >
           {loading ? "Adding..." : "Add Category"}
         </Button>
       </Box>
@@ -427,7 +437,9 @@ const Categories = () => {
             <Tooltip title="View">
               <IconButton
                 onClick={() =>
-                  setViewCategory(categories.find((c) => c._id === selectedCategoryId))
+                  setViewCategory(
+                    categories.find((c) => c._id === selectedCategoryId)
+                  )
                 }
               >
                 <VisibilityIcon />
@@ -436,7 +448,9 @@ const Categories = () => {
             <Tooltip title="Edit">
               <IconButton
                 onClick={() => {
-                  const cat = categories.find((c) => c._id === selectedCategoryId);
+                  const cat = categories.find(
+                    (c) => c._id === selectedCategoryId
+                  );
                   setEditCategoryName(cat.name);
                   setOpenEdit(true);
                 }}
@@ -445,7 +459,9 @@ const Categories = () => {
               </IconButton>
             </Tooltip>
             <Tooltip title="Delete">
-              <IconButton onClick={() => handleDeleteCategory(selectedCategoryId)}>
+              <IconButton
+                onClick={() => handleDeleteCategory(selectedCategoryId)}
+              >
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
@@ -490,8 +506,12 @@ const Categories = () => {
                   </TableCell>
                   <TableCell>{index + 1 + page * rowsPerPage}</TableCell>
                   <TableCell>{cat.name}</TableCell>
-                  <TableCell>{new Date(cat.createdAt).toLocaleString()}</TableCell>
-                  <TableCell>{new Date(cat.updatedAt).toLocaleString()}</TableCell>
+                  <TableCell>
+                    {new Date(cat.createdAt).toLocaleString()}
+                  </TableCell>
+                  <TableCell>
+                    {new Date(cat.updatedAt).toLocaleString()}
+                  </TableCell>
                 </TableRow>
               ))
             ) : (
@@ -563,4 +583,4 @@ const Categories = () => {
 };
 
 export default Categories;
-3
+3;

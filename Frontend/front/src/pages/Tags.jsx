@@ -1184,6 +1184,10 @@ const Tags = () => {
 
   return (
     <div style={{ maxWidth: 1200, margin: "20px auto" }}>
+      
+      <Button variant="contained" color="primary" component="a" href="/">
+        Go Back
+      </Button>
       <h2>🧷 Tags Management</h2>
       <Box display="flex" gap={2} mb={2}>
         <TextField
